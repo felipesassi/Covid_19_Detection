@@ -27,7 +27,7 @@ class Data_Generator(Dataset):
             label = self.labels[idx]
             return img, torch.tensor(label).view(-1)
         else:
-            retunr img
+            return img
 
 def generate_train_validation_dataloader(data_train, data_train_labels, transformer_train, data_val, data_val_labels, transformer_val, batch_size, base_dir):
     train_loader = DataLoader(Data_Generator(data_train, data_train_labels, base_dir, transformer_train), batch_size)
