@@ -15,7 +15,7 @@ class Data_Generator(Dataset):
         self.train = train
 
     def __len__(self):
-        return self.data.shape[0]
+        return len(self.data)
 
     def __getitem__(self, idx):
         directory = self.base_dir + self.data[idx]

@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 from utils.utils import show_training_progress
 
 class Controller():
@@ -14,6 +15,8 @@ class Controller():
         self.device = device
 
     def train(self):
+        self.trace_train_metric = []
+        self.trace_val_metric = []
         sig = nn.Sigmoid()
         for epoch in range(self.epochs):
             print("Epoch {}" .format(epoch))
@@ -32,6 +35,7 @@ class Controller():
                 self.metric.add_value(y, y_out)
                 self.metric.compute_metric()
                 show_training_progress(self.metric.get_auc_metric(), i, len(self.train_data), True)
+            self.trace_train_metric.append(self.metric.get_auc_metric())
             if self.lr_scheduler != None:
                 self.lr_scheduler.step(total_loss)
             print("")
@@ -48,6 +52,7 @@ class Controller():
                     self.metric.add_value(y, y_out)
                     self.metric.compute_metric()
                     show_training_progress(self.metric.get_auc_metric(), i, len(self.validation_data), False)
+                self.trace_val_metric.append(self.metric.get_auc_metric())
             print("")
 
         def save(self, train_mode=False):
