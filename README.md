@@ -1,11 +1,12 @@
 # Covid-19 Detection
 
+Nesse projeto foi desenvolvido um sistema capaz de detectar se um paciente está doente devido ao Covid-19 ou não.
 
 ## O problema proposto
 
-A ideia básica desse projeto é realizar a classificação de células em duas classes, com metástase e saudáveis. O conjunto de dados é composto por images de 96 pixels de largura por 96 pixels de altura.
+A ideia desse projeto é utilizar imagens de raios x do tórax para verificar se o paciente está doente devido ao Covid-19 ou não. O conjunto de dados é composto por raios x de pacientes saudaveis, raios x de pacientes doentes devido a outras doenças e raios x de pacientes doentes devido ao Covid-19.
 
-> In this competition, you must create an algorithm to identify metastatic cancer in small image patches taken from larger digital pathology scans.
+O problema foi estruturado como um problema de classificação binária, predizendo se o paciente está doente devido ao Covid-19 ou não.
 
 ## Conjuntos de dados
 
@@ -13,25 +14,22 @@ As imagens que compõe o conjunto de dados são como a imagem abaixo.
 
 ![image](images/example.png)
 
+Foram utilizados dois conjuntos de dados, o primeiro deles é um conjunto de dados contendo pacientes doentes devido ao Covid-19 e o segundo devido a pneumonia. O segundo conjunto de dados foi utilizado para aumentar os dados disponíveis bem como realizar o balanceamento das classes.
+
 ### Conjunto de dados de treino
 
-O conjunto de dados de treino é composto por 220025 imagens.
-
-### Conjunto de dados de teste
-
-O conjunto de testes é composto por 57458 imagens
+O conjunto de dados de treino é composto por 152 imagens.
 
 ### Avaliação do modelo
 
-A métrica utilizada para avaliar o modelo é a mesma definida pela competição:
-
-> Submissions are evaluated on area under the ROC curve between the predicted probability and the observed target.
+Para se avaliar a capacidade do modelo optou-se por se utilizar a métrica AUC.
 
 ## Descrição da solução
 
 Todo o projeto foi desenvolvido por meio da plataforma Google Colab, a qual disponibiliza acesso a uma GPU de alto desempenho gratuitamente.
 
-Diversos modelos de redes neurais convolucioonais foram testados afim de se maximizar o desempenho obtido na classificação. O modelo escolhido consiste um um rede ResNet50 com a inserção de três camadas completamente conectadas para a classificação. Além disso, os pesos da parte convolucional são inicializados com os pesos utilizados na competição ImageNet.
+Diversos modelos de redes neurais convolucioonais foram testados afim de se maximizar o desempenho obtido na classificação. Nesse projeto o modelo escolhido foi um EfficientNet-B7. Esse modelo atingiu uma métrica AUC média (média dos resultados de uma validação cruzada) de 0.91.
+Outro modelo testado foi a arquitetura DenNet121, seus resultados podem ser verificados abaixo.
 
 Para melhorar o desempenho do modelo algumas técnicas de *data agumentation* foram utilizadas (os nomes correspondem as funções da biblioteca *albumentations*):
 
@@ -52,19 +50,15 @@ Quatro experimentos foram realizados:
 - Experimento 3: com *data augmentation* (VerticalFlip(), HorizontalFlip());
 - Experimento 4: com todas as técnicas de *data augmenation* mencionadas.
 
-Em todos os experimentos as imagens de entrada foram normalizadas.
-
 A função custo utilizada é BCEWithLogitsLoss() a qual incorpora uma camada sigmóide e a função custo BCELoss().	
 
-### ResNet50 modificada
+### EfficientNet
 
-A arquitetura ResNet50 utilizada nesse projeto foi a seguinte:
-
-![image](images/model.png)
+A arquitetura EfficientNet-B7 utilizada nesse projeto pode ser encontrada aqui.
 
 ## Resultados
 
-O modelo conseguiu os seguintes resultados em cada um dos experimentos:
+Os resultados obtidos nos modelos EfficientNet-B7 e DenseNet121 em cada um dos experiemntos podem ser vistos na tabela abaixo.
 
 | Experiment | Train | Validation | Test |
 |------------|-------|------------|------|
