@@ -54,7 +54,7 @@ Como se trata de um problema de classificação binária a função custo utiliz
 
 ### EfficientNet
 
-A arquitetura EfficientNet-B7 utilizada nesse projeto pode ser encontrada aqui.
+A arquitetura EfficientNet-B7 utilizada nesse projeto pode ser encontrada [aqui](https://github.com/lukemelas/EfficientNet-PyTorch).
 
 ## Resultados
 
@@ -84,7 +84,7 @@ Devido ao pequeno número de dados ainda não foi utilizada um conjunto de teste
 
 ### Dowload de dados
 
-Após clonar o repositório é necessária realizar o donwload do conjunto de dados e descompactar tudo dentro de uma chamada *data*.
+Após clonar o repositório é necessário realizar o download do conjunto de dados e descompactar tudo dentro de uma chamada *data*.
 
 ### Treinamento do modelo
 
@@ -92,14 +92,6 @@ Para treinar o modelo é necessário rodar o aquivo *train.py* atráves do segui
 
 ```
 python3 train.py
-```
-
-### Criação do conjunto de teste
-
-Para gerar o conjunto de dados a ser enviado para o Kaggle é necessário rodar o arquivo *eval.py* por meio do seguinte comando:
-
-```
-python3 eval.py
 ```
 
 ## Descrição dos arquivos do projeto
