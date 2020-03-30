@@ -28,8 +28,8 @@ Para se avaliar a capacidade do modelo optou-se por se utilizar a métrica AUC.
 
 Todo o projeto foi desenvolvido por meio da plataforma Google Colab, a qual disponibiliza acesso a uma GPU de alto desempenho gratuitamente.
 
-Diversos modelos de redes neurais convolucioonais foram testados afim de se maximizar o desempenho obtido na classificação. Nesse projeto o modelo escolhido foi um EfficientNet-B7. Esse modelo atingiu uma métrica AUC média (média dos resultados de uma validação cruzada) de 0.91.
-Outro modelo testado foi a arquitetura DenNet121, seus resultados podem ser verificados abaixo.
+Diversos modelos de redes neurais convolucionais foram testados afim de se maximizar o desempenho obtido na classificação. Nesse projeto o modelo escolhido foi um EfficientNet-B7. Esse modelo atingiu uma métrica AUC média (média dos resultados de uma validação cruzada) de 0.91.
+Outro modelo testado foi a arquitetura DenseNet121, seus resultados podem ser verificados abaixo.
 
 Para melhorar o desempenho do modelo algumas técnicas de *data agumentation* foram utilizadas (os nomes correspondem as funções da biblioteca *albumentations*):
 
@@ -45,12 +45,12 @@ Para melhorar o desempenho do modelo algumas técnicas de *data agumentation* fo
 
 Quatro experimentos foram realizados:
 
-- Experimento 1: sem *data augmentation*;
-- Experimento 2: com *data augmentation* (RandomGamma(), RandomBrightness(), RandomContrast());
-- Experimento 3: com *data augmentation* (VerticalFlip(), HorizontalFlip());
-- Experimento 4: com todas as técnicas de *data augmenation* mencionadas.
+- Experimento 1: arquitetura EfficientNet-B7 sem *data augmentation*;
+- Experimento 2: arquitetura EfficientNet-B7 com *data augmentation*;
+- Experimento 3: arquitetura DenseNet sem *data augmentation*;
+- Experimento 4: arquitetura DenseNet com *data augmentation*;.
 
-A função custo utilizada é BCEWithLogitsLoss() a qual incorpora uma camada sigmóide e a função custo BCELoss().	
+Como se trata de um problema de classificação binária a função custo utilizada é BCEWithLogitsLoss() a qual incorpora uma camada sigmóide e a função custo BCELoss().	
 
 ### EfficientNet
 
@@ -60,12 +60,14 @@ A arquitetura EfficientNet-B7 utilizada nesse projeto pode ser encontrada aqui.
 
 Os resultados obtidos nos modelos EfficientNet-B7 e DenseNet121 em cada um dos experiemntos podem ser vistos na tabela abaixo.
 
+Devido ao pequeno número de dados ainda não foi utilizada um conjunto de testes para verificação dos resultados do modelo.
+
 | Experiment | Train | Validation | Test |
 |------------|-------|------------|------|
-| 1          | 0.98  | 0.98       | 0.95 |
-| 2          | 0.98  | 0.99       | 0.95 |
-| 3          | 0.98  | 0.98       | 0.94 |
-| 4          | 0.96  | 0.98       | 0.94 |
+| 1          | 1  | 0.93       | - |
+| 2          | 1  | 0.91       | - |
+| 3          | 0.98  | 0.98       | - |
+| 4          | 1  | 0.82       | - |
 
 ###
 
