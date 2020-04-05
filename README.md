@@ -64,6 +64,12 @@ Devido ao pequeno número de dados ainda não foi utilizada um conjunto de teste
 | 1          | 0.99  | 0.81       |
 | 2          | 0.99  | 0.83       |
 
+Para o experimento 2 se obteve os seguintes resultados durante a validação:
+
+| Sensibilidade (reccal) | Valor preditivo positivo (precision) | 
+|------------|-------|
+| 1          | 0.8  |      
+
 ###
 
 ## Como usar
