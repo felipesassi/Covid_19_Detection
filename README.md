@@ -28,7 +28,7 @@ Para se avaliar a capacidade do modelo optou-se por se utilizar a métrica AUC.
 
 Todo o projeto foi desenvolvido por meio da plataforma Google Colab, a qual disponibiliza acesso a uma GPU de alto desempenho gratuitamente.
 
-Diversos modelos de redes neurais convolucionais foram testados afim de se maximizar o desempenho obtido na classificação. Nesse projeto um dos melhores desempenhos foi obtido pelo modelo EfficientNet-B7 sem *data augmenation*. Esse modelo atingiu uma métrica *F1-score* média (média dos resultados de uma validação cruzada) de 0.81.
+Diversos modelos de redes neurais convolucionais foram testados afim de se maximizar o desempenho obtido na classificação. Nesse projeto um dos melhores desempenhos foi obtido pelo modelo EfficientNet-B7 sem *data augmenation*. Esse modelo atingiu uma métrica *F1-score* média (média dos resultados de uma validação cruzada) de 0.83.
 
 Para evitar o *overfitting* do modelo algumas técnicas de *data agumentation* foram utilizadas (os nomes correspondem as funções da biblioteca *albumentations*):
 
@@ -59,10 +59,10 @@ Os resultados obtidos pelo modelo EfficientNet-B7 em cada um dos experiementos p
 
 Devido ao pequeno número de dados ainda não foi utilizada um conjunto de testes para verificação dos resultados do modelo.
 
-| Experiment | Train | Validation | Test |
-|------------|-------|------------|------|
-| 1          | 1  | 0.81       | - |
-| 2          | -  | -       | - |
+| Experiment | Train | Validation |
+|------------|-------|------------|
+| 1          | 0.99  | 0.81       |
+| 2          | 0.99  | 0.83       |
 
 ###
 
