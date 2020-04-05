@@ -57,7 +57,7 @@ A arquitetura EfficientNet-B7 utilizada nesse projeto pode ser encontrada [aqui]
 
 Os resultados obtidos pelo modelo EfficientNet-B7 em cada um dos experiementos pode ser visto na tabela abaixo.
 
-Devido ao pequeno número de dados ainda não foi utilizada um conjunto de testes para verificação dos resultados do modelo.
+Devido ao pequeno número de dados ainda não foi utilizada um conjunto de testes para verificação dos resultados do modelo. Os resultados apresentados abaixo são a média dos resultados obtidos em uma validação cruzada de 5 *folds*.
 
 | Experiment | Train | Validation |
 |------------|-------|------------|
