@@ -28,8 +28,7 @@ Para se avaliar a capacidade do modelo optou-se por se utilizar a métrica AUC.
 
 Todo o projeto foi desenvolvido por meio da plataforma Google Colab, a qual disponibiliza acesso a uma GPU de alto desempenho gratuitamente.
 
-Diversos modelos de redes neurais convolucionais foram testados afim de se maximizar o desempenho obtido na classificação. Nesse projeto um dos melhores desempenhos foi obtido pelo modelo EfficientNet-B7 sem *data augmenation*. Esse modelo atingiu uma métrica AUC média (média dos resultados de uma validação cruzada) de 0.93.
-Outro modelo testado foi a arquitetura DenseNet121, seus resultados podem ser verificados abaixo.
+Diversos modelos de redes neurais convolucionais foram testados afim de se maximizar o desempenho obtido na classificação. Nesse projeto um dos melhores desempenhos foi obtido pelo modelo EfficientNet-B7 sem *data augmenation*. Esse modelo atingiu uma métrica *F1-score* média (média dos resultados de uma validação cruzada) de 0.81.
 
 Para evitar o *overfitting* do modelo algumas técnicas de *data agumentation* foram utilizadas (os nomes correspondem as funções da biblioteca *albumentations*):
 
@@ -43,12 +42,10 @@ Para evitar o *overfitting* do modelo algumas técnicas de *data agumentation* f
 - Normalize();
 - CoarseDropout().
 
-Quatro experimentos foram realizados:
+Dois experimentos foram realizados:
 
 - Experimento 1: arquitetura EfficientNet-B7 sem *data augmentation*;
 - Experimento 2: arquitetura EfficientNet-B7 com *data augmentation*;
-- Experimento 3: arquitetura DenseNet sem *data augmentation*;
-- Experimento 4: arquitetura DenseNet com *data augmentation*;.
 
 Como se trata de um problema de classificação binária a função custo utilizada é BCEWithLogitsLoss() a qual incorpora uma camada sigmóide e a função custo BCELoss().	
 
@@ -58,16 +55,14 @@ A arquitetura EfficientNet-B7 utilizada nesse projeto pode ser encontrada [aqui]
 
 ## Resultados
 
-Os resultados obtidos nos modelos EfficientNet-B7 e DenseNet121 em cada um dos experiemntos podem ser vistos na tabela abaixo.
+Os resultados obtidos pelo modelo EfficientNet-B7 em cada um dos experiementos pode ser visto na tabela abaixo.
 
 Devido ao pequeno número de dados ainda não foi utilizada um conjunto de testes para verificação dos resultados do modelo.
 
 | Experiment | Train | Validation | Test |
 |------------|-------|------------|------|
-| 1          | 1  | 0.93       | - |
-| 2          | 1  | 0.91       | - |
-| 3          | 0.98  | 0.98       | - |
-| 4          | 1  | 0.82       | - |
+| 1          | 1  | 0.81       | - |
+| 2          | -  | -       | - |
 
 ###
 
