@@ -53,11 +53,11 @@ Como se trata de um problema de classificação binária a função custo utiliz
 
 A arquitetura EfficientNet-B7 utilizada nesse projeto pode ser encontrada [aqui](https://github.com/lukemelas/EfficientNet-PyTorch).
 
-## Resultados
+### Resultados
 
 Os resultados obtidos pelo modelo EfficientNet-B7 em cada um dos experiementos pode ser visto na tabela abaixo.
 
-Devido ao pequeno número de dados ainda não foi utilizada um conjunto de testes para verificação dos resultados do modelo. Os resultados apresentados abaixo são a média dos resultados obtidos em uma validação cruzada de 5 *folds*.
+Devido ao pequeno número de dados ainda não foi utilizada um conjunto de testes para verificação dos resultados do modelo. Os resultados apresentados abaixo são a média dos *F1-scores* obtidos em uma validação cruzada de 5 *folds*.
 
 | Experiment | Train | Validation |
 |------------|-------|------------|
@@ -70,7 +70,11 @@ Para o experimento 2 se obteve os seguintes resultados durante a validação:
 |------------|-------|
 | 1          | 0.8  |      
 
-###
+### Localização dos pontos-chave para a predição
+
+Utilizando a técnica Grad-CAM e a técnica Grad-CAM++ foi possível gerar mapas de calor que representam as regiões da imagem de entrada que mais contribuiram para o valor da saída. Abaixo pode-se verificar os resultados.
+
+![image](images/masks.png)
 
 ## Como usar
 
