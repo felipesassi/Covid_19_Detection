@@ -9,36 +9,33 @@ from sklearn.model_selection import StratifiedKFold
 from models.model import EF_Net
 from models.controller import Controller
 from utils.utils import get_device, read_parameters, separate_train_val
-from metrics.metrics import Accuracy_Metric, ROC_AUC_Score
+from metrics.metrics import Accuracy_Metric
 import albumentations as A
 from albumentations import pytorch
 
 if __name__ == "__main__":
     df = pd.read_csv("data/metadata.csv")
-    df_train, df_val = separate_train_val(df)
     configs = read_parameters()
     device = get_device()
     transform = A.Compose([
-                       A.Resize(512, 512, p = 1),
-                       A.OneOf([
-                                A.RGBShift(p = 1),
-                                A.Blur(p = 1),
-                                A.RandomGamma(p = 1),
-                                A.RandomBrightness(p = 1),
-                                A.RandomContrast(p = 1),
-                                ]),
+                        A.Resize(256, 256, p = 1),
                         A.OneOf([
-                                 A.VerticalFlip(p = 1),
-                                 A.HorizontalFlip(p = 1)
-                        ]),
-                       A.CoarseDropout(max_holes = 24),
-                       A.Normalize(p = 1),
-                       pytorch.ToTensorV2()
+                                    A.Blur(p = 1),
+                                    A.RandomGamma(p = 1),
+                                    A.RandomBrightness(p = 1),
+                                    A.RandomContrast(p = 1),
+                                    ]),
+                            A.OneOf([
+                                    A.VerticalFlip(p = 1),
+                            ]),
+                        A.CoarseDropout(p = 0.5),
+                        A.Normalize(p = 1),
+                        pytorch.ToTensorV2()
     ])
     transform_val_test = A.Compose([
-                                A.Resize(height = 512, width = 512, p = 1),
-                                A.Normalize(p = 1),
-                                pytorch.ToTensorV2(),
+        A.Resize(height = 256, width = 256, p = 1.0),
+        A.Normalize(p = 1.0),
+        pytorch.ToTensorV2(),
     ])
     KF = StratifiedKFold()
     for train, val in KF.split(df["labels"].values, df["classes"].values):
@@ -51,12 +48,13 @@ if __name__ == "__main__":
                                                                         y_val,
                                                                         transform_val_test
                                                                         configs["train_parameters"]["batch_size"], 
-                                                                        "data/data/train/")
+                                                                        "data/images/")
         EFNet = EF_Net().to(device)
-        Loss = nn.BCEWithLogitsLoss()
+        Loss = nn.CrossEntropyLoss()
         Optimizer = optim.Adam(EFNet.parameters(),
                             lr = configs["train_parameters"]["learning_rate"])
-        Metrics = ROC_AUC_ScoreC()
+        Stepper = optim.lr_scheduler.ReduceLROnPlateau(Optimizer, patience = configs["train_parameters"]["patience"])
+        Metrics = Accuracy_Metric()
         Control = Controller(model = EFNet,
                     optimizer = Optimizer,
                     loss = Loss,
@@ -65,5 +63,5 @@ if __name__ == "__main__":
                     validation_data = val_gen,
                     epochs = configs["train_parameters"]["epochs"],
                     device = device,
-                    lr_scheduler = None)
+                    lr_scheduler = Stepper)
         Control.train()

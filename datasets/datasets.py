@@ -34,5 +34,9 @@ def generate_train_validation_dataloader(data_train, data_train_labels, transfor
     validation_loader = DataLoader(Data_Generator(data_val, data_val_labels, base_dir, transformer_val), batch_size)
     return train_loader, validation_loader
 
+def generate_test_dataloader(data_test, data_test_labels, transformer_test, batch_size, base_dir):
+    test_loader = DataLoader(Data_Generator(data_test, data_test_labels, base_dir, transformer_test), batch_size)
+    return test_loader
+
 if __name__ == "__main__":
     pass

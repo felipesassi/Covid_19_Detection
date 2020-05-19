@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from utils.utils import show_training_progress
 
 class Controller():
@@ -17,7 +18,6 @@ class Controller():
     def train(self):
         self.trace_train_metric = []
         self.trace_val_metric = []
-        sig = nn.Sigmoid()
         for epoch in range(self.epochs):
             print("Epoch {}" .format(epoch))
             self.model.train()
@@ -27,33 +27,46 @@ class Controller():
                 x, y = x.to(self.device), y.to(self.device)
                 self.optimizer.zero_grad()
                 y_out = self.model(x)
-                loss_value = self.loss(y_out, y.float())
+                loss_value = self.loss(y_out, y.long().view(-1))
                 loss_value.backward()
                 self.optimizer.step()
                 total_loss = total_loss + loss_value.item()
-                y_out = sig(y_out)
+                y_out = F.softmax(y_out)
                 self.metric.add_value(y, y_out)
                 self.metric.compute_metric()
-                show_training_progress(self.metric.get_auc_metric(), i, len(self.train_data), True)
-            self.trace_train_metric.append(self.metric.get_auc_metric())
+                show_training_progress(self.metric.get_accuracy_value(), i, len(self.train_data), True)
+            self.trace_train_metric.append(self.metric.get_get_accuracy_valueauc_metric())
             if self.lr_scheduler != None:
                 self.lr_scheduler.step(total_loss)
             print("")
             self.model.eval()
             total_loss = 0 
             self.metric.reset_value()
+            self.y_saved = None
+            self.y_pred_saved = None
             with torch.no_grad():
                 for i, (x, y) in enumerate(self.validation_data):
                     x, y = x.to(self.device), y.to(self.device)
                     y_out = self.model(x)
-                    loss_value = self.loss(y_out, y.float())
+                    loss_value = self.loss(y_out, y.long().view(-1))
                     total_loss = total_loss + loss_value.item()
-                    y_out = sig(y_out)
+                    y_out = F.softmax(y_out)
+                    self.save_outputs(y, y_out)
                     self.metric.add_value(y, y_out)
                     self.metric.compute_metric()
-                    show_training_progress(self.metric.get_auc_metric(), i, len(self.validation_data), False)
-                self.trace_val_metric.append(self.metric.get_auc_metric())
+                    show_training_progress(self.metric.get_accuracy_value(), i, len(self.validation_data), False)
+                self.trace_val_metric.append(self.metric.get_accuracy_value())
             print("")
+
+        def save_outputs(self, y, y_pred):
+            if self.y_saved == None:
+                self.y_saved = y
+            else:
+                self.y_saved = torch.cat([self.y_saved, y], dim = 0)
+            if self.y_pred_saved == None:
+                self.y_pred_saved = y_pred
+            else:
+                self.y_pred_saved = torch.cat([self.y_pred_saved, y_pred], dim = 0)
 
         def save(self, train_mode=False):
             torch.save(self.model.state_dict(), "model.pth")

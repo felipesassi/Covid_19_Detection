@@ -36,7 +36,7 @@ def show_training_progress(metric, index, batch_size, train):
         txt_1 = "V - "
     else:
         txt_1 = "T - "
-    txt_2 = "Metric: {:.2f}%" .format(metric)
+    txt_2 = "Metric: {:.2f}%" .format(100*metric)
     progress = int(100*(index + 1)/batch_size)
     progress_bar = progress*"#" + (100 - progress)*"-" + " - "
     txt = "\r" + txt_1 + progress_bar + txt_2
